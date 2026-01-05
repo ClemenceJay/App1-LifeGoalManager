@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React, {useState} from 'react';
+import ListeGoal from './composants/ListeGoal';
+import AddGoal from './composants/AddGoal';
 
 
 export default function App() {
@@ -31,28 +33,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Mes Life Goal:</Text>
-      <View style={styles.listeGoal}>
-        {sampleGoals.map((goal, index) => (
-          <View key={index} style={styles.cardGoal}>
-            <Text style={styles.text} >{goal}</Text>
-            <Button
-               title='X'
-               color='#611961ff'
-               onPress={() => deleteGoal(index)}/>
-          </View>
-        ))}
-      </View>
-      <View  style={styles.containerRow}>
-        <TextInput 
-          value={newGoalInput}
-          onChangeText={setNewGoalInput}
-          style={styles.input}
-          placeholder='Nouvelle tache'/>
-        <Button
-          title='Add'
-          color='#611961ff'
-          onPress={ajouterLifeGoal}/>
-      </View>
+      <ListeGoal listeGoal={sampleGoals} deleteGoal={deleteGoal}/>
+      <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
     </View>
   );
 }
@@ -64,42 +46,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text : {
-    color: 'white',
-  },
-  bold: {
-    fontWeight: 'bold'
-  },
   titre: {
     fontSize: 24,
     fontWeight: 'bold'
-  },
-  listeGoal: {
-    margin: 20
-  },
-  cardGoal: {
-    marginTop:2,
-    paddingTop : 7,
-    paddingBottom : 7,
-    paddingLeft : 10,
-    paddingRight : 10,
-    backgroundColor: '#611961ff',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    flexDirection:'row',
-    justifyContent: 'space-between',
-    gap:10,
-    alignItems: 'center'
-  },
-  containerRow: {
-    flexDirection: 'row',
-    gap: 5
-  },
-  input: {
-    borderColor: 'black',
-    borderWidth: 1,
-    width: 200
   }
 });

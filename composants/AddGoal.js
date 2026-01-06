@@ -5,15 +5,15 @@ const AddGoal = ({ newGoalInput, setNewGoalInput, ajouterLifeGoal }) => {
 
   return (
     <View style={styles.containerRow}>
-        <TextInput 
-            value={newGoalInput}
-            onChangeText={setNewGoalInput}
-            style={styles.input}
-            placeholder='Nouvelle tache'/>
-        <Button
-            title='Add'
-            color='#611961ff'
-            onPress={ajouterLifeGoal}/>
+      <TextInput 
+        value={newGoalInput}
+        onChangeText={setNewGoalInput}
+        style={styles.input}
+        placeholder='Nouvelle tache'/>
+      <Button
+        title='Add'
+        color='#3e3f2cff'
+        onPress={ajouterLifeGoal}/>
     </View>
   );
 };

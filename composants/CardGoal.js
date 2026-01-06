@@ -8,7 +8,7 @@ const CardGoal = ({ nomGoal, index, deleteGoal }) => {
             <Text style={styles.text}>{nomGoal}</Text>
             <Button
                 title='X'
-                color='#611961ff'
+                color='#D5B994'
                 onPress={() => deleteGoal(index)}/>
         </View>
     );
@@ -16,7 +16,8 @@ const CardGoal = ({ nomGoal, index, deleteGoal }) => {
 
 const styles = StyleSheet.create({
   text : {
-    color: 'white',
+    fontWeight: '600',
+    color: '#717258ff',
   },
   listeCardGoal: {
     marginTop:2,
@@ -24,7 +25,9 @@ const styles = StyleSheet.create({
     paddingBottom : 7,
     paddingLeft : 10,
     paddingRight : 10,
-    backgroundColor: '#611961ff',
+    borderWidth: 1,
+    borderColor: '#717258ff',
+    backgroundColor: '#F7F3F2',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 15,

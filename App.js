@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, ImageBackground } from 'react-native';
 import React, {useState} from 'react';
 import ListeGoal from './composants/ListeGoal';
 import AddGoal from './composants/AddGoal';
 
+const background = require('./assets/background.jpg');
 
 export default function App() {
 
@@ -31,23 +32,25 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titre}>Mes Life Goal:</Text>
-      <ListeGoal listeGoal={sampleGoals} deleteGoal={deleteGoal}/>
-      <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
-    </View>
+    <ImageBackground style={styles.container} source={background} resizeMode="cover">
+      <View style={styles.container}>
+        <Text style={styles.titre}>Mes Life Goal:</Text>
+        <ListeGoal listeGoal={sampleGoals} deleteGoal={deleteGoal}/>
+        <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   titre: {
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontSize: 34,
+    fontWeight: '900',
+    color: '#3e3f2cff'
   }
 });

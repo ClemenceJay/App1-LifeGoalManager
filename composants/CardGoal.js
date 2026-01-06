@@ -1,15 +1,17 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const CardGoal = ({ nomGoal, index, openModalDel }) => {
+const CardGoal = ({ nomGoal, index, openModalDel, openModalEdit }) => {
 
   return (
         <View style={styles.listeCardGoal}>
-            <Text style={styles.text}>{nomGoal}</Text>
-            <Button
-                title='X'
-                color='#D5B994'
-                onPress={() => openModalDel(index)}/>
+          <Pressable>
+            <Text style={styles.text} onPress={() => openModalEdit(index, nomGoal)}>{nomGoal}</Text>
+          </Pressable>
+          <Button
+              title='X'
+              color='#D5B994'
+              onPress={() => openModalDel(index)}/>
         </View>
     );
 };

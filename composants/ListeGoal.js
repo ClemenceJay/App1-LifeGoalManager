@@ -2,13 +2,13 @@ import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import CardGoal from './CardGoal'
 
-const ListeGoal = ({ listeGoal, openModalDel }) => {
+const ListeGoal = ({ listeGoal, openModalDel, openModalEdit }) => {
 
   return (
       <FlatList
         style={styles.listeGoal}
         data={listeGoal}
-        renderItem={({item, index}) => <CardGoal nomGoal={item} index={index} openModalDel={openModalDel}/>}
+        renderItem={({item, index}) => <CardGoal nomGoal={item} index={index} openModalDel={openModalDel} openModalEdit={openModalEdit}/>}
       />
     );
   };

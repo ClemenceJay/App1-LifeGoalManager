@@ -4,13 +4,17 @@ import React, {useState} from 'react';
 import ListeGoal from './composants/ListeGoal';
 import AddGoal from './composants/AddGoal';
 import ModalDel from './composants/ModalDel';
+import ModalEdit from './composants/ModalEdit';
 
 const background = require('./assets/background.jpg');
 
 export default function App() {
   
   const [modalDelVisible, setModalDelVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState("");
+  const [indexToEdit, setIndexToEdit] = useState("");
+  const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
     "Faire les courses",
@@ -33,11 +37,25 @@ export default function App() {
   const deleteGoal = (goalToDelete) => {
     setSampleGoals(sampleGoals.filter((_,index) => index != goalToDelete));
     setModalDelVisible(false);
+    setIndexToDelete("");
+  }
+  
+  const editGoal = (goalToEdit) => {
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === goalToEdit ? nomGoalToEdit : prevGoal))
+    setModalEditVisible(false);
+    setIndexToEdit("");
+    setNomGoalToEdit("");
   }
 
   const openModalDel = (goalToDelete) => {
     setModalDelVisible(true);
     setIndexToDelete(goalToDelete);
+  }
+
+  const openModalEdit = (goalToEdit, nomGoal) => {
+    setModalEditVisible(true);
+    setIndexToEdit(goalToEdit);
+    setNomGoalToEdit(nomGoal);
   }
 
   return (
@@ -48,9 +66,15 @@ export default function App() {
         visible={modalDelVisible}>
           <ModalDel indexToDelete={indexToDelete} setModalDelVisible={setModalDelVisible} deleteGoal={deleteGoal}/>
       </Modal>
+      <Modal 
+        animationType="fade"
+        transparent={true}
+        visible={modalEditVisible}>
+          <ModalEdit indexToEdit={indexToEdit} nomGoalToEdit={nomGoalToEdit} setModalEditVisible={setModalEditVisible} editGoal={editGoal} setNomGoalToEdit={setNomGoalToEdit}/>
+      </Modal>
       <View style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
-        <ListeGoal listeGoal={sampleGoals} openModalDel={openModalDel}/>
+        <ListeGoal listeGoal={sampleGoals} openModalDel={openModalDel} openModalEdit={openModalEdit}/>
         <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
       </View>
     </ImageBackground>

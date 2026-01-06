@@ -2,13 +2,13 @@ import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import CardGoal from './CardGoal'
 
-const ListeGoal = ({ listeGoal, deleteGoal }) => {
+const ListeGoal = ({ listeGoal, openModalDel }) => {
 
   return (
       <FlatList
         style={styles.listeGoal}
         data={listeGoal}
-        renderItem={({item, index}) => <CardGoal nomGoal={item} index={index} deleteGoal={deleteGoal}/>}
+        renderItem={({item, index}) => <CardGoal nomGoal={item} index={index} openModalDel={openModalDel}/>}
       />
     );
   };
@@ -19,8 +19,10 @@ const styles = StyleSheet.create({
   },
   listeGoal: {
     margin: 20,
-    flexShrink:1,
-    flexGrow: 0
+    flexGrow: 0,
+    flexShrink: 1,
+    marginRight: 5,
+    marginLeft: 5
   }
 });
 

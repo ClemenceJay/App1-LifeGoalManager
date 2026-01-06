@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     flexShrink: 1,
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
+    maxHeight: '65%'
   }
 });
 

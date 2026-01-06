@@ -7,7 +7,7 @@ const AddGoal = ({ newGoalInput, setNewGoalInput, ajouterLifeGoal }) => {
     <View style={styles.containerRow}>
       <TextInput 
         value={newGoalInput}
-        onChangeText={() => setNewGoalInput}
+        onChangeText={setNewGoalInput}
         style={styles.input}
         placeholder='Nouvelle tache'/>
       <Button

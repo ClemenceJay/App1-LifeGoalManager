@@ -1,17 +1,24 @@
 import React from 'react';
-import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
-const CardGoal = ({ nomGoal, index, openModalDel, openModalEdit }) => {
+const CardGoal = ({ goal, index, openModalDel, openModalDone, openModalEdit }) => {
 
   return (
         <View style={styles.listeCardGoal}>
           <Pressable>
-            <Text style={styles.text} onPress={() => openModalEdit(index, nomGoal)}>{nomGoal}</Text>
+            <Text style={styles.text} onPress={() => openModalEdit(index, goal)}>{goal.nom}</Text>
           </Pressable>
-          <Button
-              title='X'
-              color='#D5B994'
-              onPress={() => openModalDel(index)}/>
+          <View style={styles.containerRow}>
+            <Pressable onPress={() => openModalDone(index)}>
+              <Image
+              source={require('../assets/check-mark.png')}
+              style={{width: 25, height: 25}}/>
+            </Pressable>
+            <Button
+                title='X'
+                color='#D5B994'
+                onPress={() => openModalDel(index)}/>
+          </View>
         </View>
     );
 };
@@ -35,7 +42,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap:10,
     alignItems: 'center'
-  }
+  },
+  containerRow: {
+    flexDirection: 'row',
+    gap: 5,
+    alignItems: 'center'
+  },
 });
 
 export default CardGoal;

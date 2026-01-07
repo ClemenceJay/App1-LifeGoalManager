@@ -5,32 +5,34 @@ import ListeGoal from './composants/ListeGoal';
 import AddGoal from './composants/AddGoal';
 import ModalDel from './composants/ModalDel';
 import ModalEdit from './composants/ModalEdit';
+import ModalDone from './composants/ModalDone';
+import DisplayGoalDone from './composants/DisplayGoalDone';
 
 const background = require('./assets/background.jpg');
 
 export default function App() {
   
   const [modalDelVisible, setModalDelVisible] = useState(false);
+  const [modalDoneVisible, setModalDoneVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState("");
   const [indexToEdit, setIndexToEdit] = useState("");
+  const [indexToDone, setIndexToDone] = useState("");
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
-    "Faire les courses",
-    "Aller à la salle de sport 3 fois par semaine",
-    "Monter à plus de 5000m d altitude",
-    "Acheter mon premier appartement",
-    "Perdre 5 kgs",
-    "Gagner en productivité",
-    "Apprendre un nouveau langage",
-    "Faire une mission en freelance",
-    "Organiser un meetup autour de la tech",
-    "Faire un triathlon"
+    {nom: "Faire les courses", done: false},
+    {nom: "Perdre 5 kgs", done: false},
+    {nom: "Apprendre un nouveau langage", done: false}
   ]);
+  const [displayDone, setDisplayDone] = useState(false);
 
+  const toggleDisplayDone = () => {
+    setDisplayDone(!displayDone);
+  }
   const ajouterLifeGoal = () => {
-    setSampleGoals([...sampleGoals, newGoalInput]);
+    let newGoal = {nom: newGoalInput, done: false}
+    setSampleGoals([...sampleGoals, newGoal]);
     setNewGoalInput("");
   }
   
@@ -39,9 +41,16 @@ export default function App() {
     setModalDelVisible(false);
     setIndexToDelete("");
   }
+
+  const doneGoal = (indexGoalToDone) => {
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === indexGoalToDone ? {...prevGoal, done: true} : prevGoal));
+    console.log(sampleGoals);
+    setModalDoneVisible(false);
+    setIndexToDone("");
+  }
   
-  const editGoal = (goalToEdit) => {
-    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === goalToEdit ? nomGoalToEdit : prevGoal))
+  const editGoal = (indexGoalToEdit) => {
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === indexGoalToEdit ? {...prevGoal, nom: nomGoalToEdit} : prevGoal));
     setModalEditVisible(false);
     setIndexToEdit("");
     setNomGoalToEdit("");
@@ -52,10 +61,15 @@ export default function App() {
     setIndexToDelete(goalToDelete);
   }
 
-  const openModalEdit = (goalToEdit, nomGoal) => {
+  const openModalDone = (goalToDone) => {
+    setModalDoneVisible(true);
+    setIndexToDone(goalToDone);
+  }
+
+  const openModalEdit = (indexGoalToEdit, goal) => {
     setModalEditVisible(true);
-    setIndexToEdit(goalToEdit);
-    setNomGoalToEdit(nomGoal);
+    setIndexToEdit(indexGoalToEdit);
+    setNomGoalToEdit(goal.nom);
   }
 
   return (
@@ -72,9 +86,16 @@ export default function App() {
         visible={modalEditVisible}>
           <ModalEdit indexToEdit={indexToEdit} nomGoalToEdit={nomGoalToEdit} setModalEditVisible={setModalEditVisible} editGoal={editGoal} setNomGoalToEdit={setNomGoalToEdit}/>
       </Modal>
+      <Modal 
+        animationType="fade"
+        transparent={true}
+        visible={modalDoneVisible}>
+          <ModalDone indexToDone={indexToDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
+      </Modal>
       <View style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
-        <ListeGoal listeGoal={sampleGoals} openModalDel={openModalDel} openModalEdit={openModalEdit}/>
+        <DisplayGoalDone displayDone={displayDone} toggleDisplayDone={toggleDisplayDone}/>
+        <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>
         <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
       </View>
     </ImageBackground>

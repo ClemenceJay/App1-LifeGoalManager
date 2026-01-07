@@ -2,19 +2,21 @@ import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import CardGoal from './CardGoal'
 
-const ModalEdit = ({ indexToEdit, nomGoalToEdit, setModalEditVisible, setNomGoalToEdit, editGoal }) => {
+const ModalDone = ({ indexToDone, setModalDoneVisible, doneGoal }) => {
 
     return (
       <View style={styles.modal}>
         <View style={styles.modalContent}>
-            <Text>Modifier le goal</Text>
-            <TextInput 
-                value={nomGoalToEdit}
-                onChangeText={setNomGoalToEdit}
-                style={styles.input}/>
+            <Text>Bravo !</Text>
             <View style={styles.containerRow}>
-                <Button style={styles.boutons} title='ANNULER' color='#D5B994' onPress={() => setModalEditVisible(false) }/>
-                <Button style={styles.boutons} title='Valider' color='#D5B994' onPress={() => editGoal(indexToEdit)}/>
+                <Button
+                    style={styles.boutons}
+                    title='CONTINUER'
+                    color='#D5B994'
+                    onPress={() => {
+                        setModalDoneVisible(false);
+                        doneGoal(indexToDone);
+                    }}/>
             </View>
         </View>
       </View>
@@ -42,13 +44,7 @@ const styles = StyleSheet.create({
     },
     text : {
         color: 'white',
-    },
-    
-  input: {
-    borderColor: 'black',
-    borderWidth: 1,
-    width: 200
-  }
+    }
 });
 
-export default ModalEdit;
+export default ModalDone;

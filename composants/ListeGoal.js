@@ -2,13 +2,18 @@ import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import CardGoal from './CardGoal'
 
-const ListeGoal = ({ listeGoal, openModalDel, openModalEdit }) => {
-
+const ListeGoal = ({ listeGoal, displayDone, openModalDel, openModalDone, openModalEdit }) => {
+  // On créé une nouvelle liste sans les goal avec le statut done (sauf si on demande l'affichage de ces goal)
+  let listToDisplay = listeGoal;
+  if (!displayDone) {
+    listToDisplay = listToDisplay.filter((goal) => !goal.done);
+  }
+  
   return (
       <FlatList
         style={styles.listeGoal}
-        data={listeGoal}
-        renderItem={({item, index}) => <CardGoal nomGoal={item} index={index} openModalDel={openModalDel} openModalEdit={openModalEdit}/>}
+        data={listToDisplay}
+        renderItem={({item, index}) => <CardGoal goal={item} index={index} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>}
       />
     );
   };

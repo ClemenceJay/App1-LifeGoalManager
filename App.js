@@ -44,7 +44,6 @@ export default function App() {
 
   const doneGoal = (indexGoalToDone) => {
     setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === indexGoalToDone ? {...prevGoal, done: true} : prevGoal));
-    console.log(sampleGoals);
     setModalDoneVisible(false);
     setIndexToDone("");
   }

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, ImageBackground, Modal } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, ImageBackground, Modal,KeyboardAvoidingView } from 'react-native';
 import React, {useState} from 'react';
 import ListeGoal from './composants/ListeGoal';
 import AddGoal from './composants/AddGoal';
@@ -91,12 +91,13 @@ export default function App() {
         visible={modalDoneVisible}>
           <ModalDone indexToDone={indexToDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
       </Modal>
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+      behavior='padding' style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
         <DisplayGoalDone displayDone={displayDone} toggleDisplayDone={toggleDisplayDone}/>
         <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>
         <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
-      </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 }

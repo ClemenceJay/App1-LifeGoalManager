@@ -3,7 +3,6 @@ import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
 const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalChild }) => {
 
-  console.log(goal)
   // Modification de l'image si le goal est marqué comme "done" ou pas
   const imageDone = goal.done ? require('../assets/undo.png') : require('../assets/check-mark.png');
 
@@ -11,7 +10,7 @@ const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalC
   // On affiche le bouton d'ajout d'enfant uniquement aux taches qui n'ont pas de parents
 
   return (
-        <View style={styles.listeCardGoal}>
+        <View style={[styles.listeCardGoal, goal.done && styles.done]}>
           <Pressable>
             <Text style={styles.text} onPress={() => openModalEdit(goal)}>{goal.nom}</Text>
           </Pressable>
@@ -23,7 +22,7 @@ const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalC
                 style={{width: 20, height: 20}}/>
               </Pressable> : null
             }
-            {goal.parent == null ?
+            {goal.parent == null && !goal.done ?
             <Pressable onPress={() => openModalChild(goal.id)}>
               <Image
               source={require('../assets/addGoal.png')}
@@ -54,12 +53,15 @@ const styles = StyleSheet.create({
     paddingRight : 10,
     borderWidth: 1,
     borderColor: '#717258ff',
-    backgroundColor: '#F7F3F2',
     borderRadius:15,
     flexDirection:'row',
     justifyContent: 'space-between',
     gap:10,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#F7F3F2',
+  },
+  done: {
+    backgroundColor: '#abababff',
   },
   containerRow: {
     flexDirection: 'row',

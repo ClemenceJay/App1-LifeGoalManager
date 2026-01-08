@@ -25,7 +25,7 @@ export default function App() {
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
-    {id : 1, nom: "Faire les courses", done: true, parent:null, child: []},
+    {id : 1, nom: "Faire les courses", done: false, parent:null, child: []},
     {id : 2, nom: "Perdre 5 kgs", done: false, parent:null, child: []},
     {id : 3, nom: "Apprendre un nouveau langage", done: false, parent:null, child: []}
   ]);
@@ -105,34 +105,48 @@ export default function App() {
   }
 
   const doneGoal = (goalDone) => {
-    
-    // Si le goal a un parent on va checker si les autres enfants sont done ou pas
-    if (goalDone.parent != null) {
 
-      // on récupère le parent et la liste de ses enfants (hors celui qu'on passe en done)
-      let parent = sampleGoals.find((goal) => goal.id === goalDone.parent);
-      let listeEnfants = parent.child.filter((goalID) => goalID != goalDone.id);
+    // Si le goal est déjà en done alors on va le repasser en not done ainsi que son parent s'il en a un
+    if (goalDone.done) {
+
+      if (goalDone.parent != null) {
+        setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id || prevGoal.id === goalDone.parent ? {...prevGoal, done: false} : prevGoal));
+      } else {
+        setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: false} : prevGoal));
+      }
+
+    // Sinon, On va gérer le passage en done et nottement s'il y a d'éventuels enfants
+    } else {
+      
+      // Si le goal a un parent on va checker si les autres enfants sont done ou pas
+      if (goalDone.parent != null) {
   
-      // Si au moins un des enfant à done = false alors la tache parente n'est pas 100% terminée
-      let nbEnfantNotDone = 0;
-      listeEnfants.forEach(enfantId => {
-        let enfant = sampleGoals.find((goal) => goal.id === enfantId);
-        if (enfant.done == false) {
-          nbEnfantNotDone += 1
+        // on récupère le parent et la liste de ses enfants (hors celui qu'on passe en done)
+        let parent = sampleGoals.find((goal) => goal.id === goalDone.parent);
+        let listeEnfants = parent.child.filter((goalID) => goalID != goalDone.id);
+    
+        // Si au moins un des enfant à done = false alors la tache parente n'est pas 100% terminée
+        let nbEnfantNotDone = 0;
+        listeEnfants.forEach(enfantId => {
+          let enfant = sampleGoals.find((goal) => goal.id === enfantId);
+          if (enfant.done == false) {
+            nbEnfantNotDone += 1
+          }
+        });
+  
+        // Si tous les autres enfants sont à done on passe en done le goal et son parent (si non, on passe en done juste le goal de base)
+        if(nbEnfantNotDone == 0) {
+          setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id || prevGoal.id === goalDone.parent ? {...prevGoal, done: true} : prevGoal));
+        } else {
+          setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: true} : prevGoal));
         }
-      });
-
-      // Si tous les autres enfants sont à done on passe en done le goal et son parent (si non, on passe en done juste le goal de base)
-      if(nbEnfantNotDone == 0) {
-        setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id || prevGoal.id === goalDone.parent ? {...prevGoal, done: true} : prevGoal));
+        
+      // Si le goal n'a pas de parent, on s'en fiche et on le passe en done
       } else {
         setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: true} : prevGoal));
       }
-      
-    // Si le goal n'a pas de parent, on s'en fiche et on le passe en done
-    } else {
-      setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: true} : prevGoal));
     }
+    
 
     setModalDoneVisible(false);
     setGoalDone("");

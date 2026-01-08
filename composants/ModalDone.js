@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const ModalDone = ({ indexToDone, setModalDoneVisible, doneGoal }) => {
+const ModalDone = ({ goalDone, setModalDoneVisible, doneGoal }) => {
 
     return (
       <View style={styles.modal}>
@@ -9,12 +9,11 @@ const ModalDone = ({ indexToDone, setModalDoneVisible, doneGoal }) => {
             <Text>Bravo !</Text>
             <View style={styles.containerRow}>
                 <Button
-                    style={styles.boutons}
                     title='CONTINUER'
                     color='#D5B994'
                     onPress={() => {
                         setModalDoneVisible(false);
-                        doneGoal(indexToDone);
+                        doneGoal(goalDone);
                     }}/>
             </View>
         </View>

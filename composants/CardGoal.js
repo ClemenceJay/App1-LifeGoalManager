@@ -13,7 +13,7 @@ const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalC
           </Pressable>
           <View style={styles.containerRow}>
             {goal.child == "" ?
-              <Pressable onPress={() => openModalDone(goal.id)}>
+              <Pressable onPress={() => openModalDone(goal)}>
                 <Image
                 source={require('../assets/check-mark.png')}
                 style={{width: 20, height: 20}}/>

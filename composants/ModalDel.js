@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
-import CardGoal from './CardGoal'
 
 const ModalDel = ({ indexToDelete, setModalDelVisible, deleteGoal }) => {
 
@@ -9,8 +8,8 @@ const ModalDel = ({ indexToDelete, setModalDelVisible, deleteGoal }) => {
         <View style={styles.modalContent}>
             <Text>Etes vous sûr de vouloir supprimer ce goal ?</Text>
             <View style={styles.containerRow}>
-                <Button style={styles.boutons} title='OUI' color='#D5B994' onPress={() =>  deleteGoal(indexToDelete)}/>
-                <Button style={styles.boutons} title='ANNULER' color='#D5B994' onPress={() => setModalDelVisible(false) }/>
+                <Button title='OUI' color='#D5B994' onPress={() =>  deleteGoal(indexToDelete)}/>
+                <Button title='ANNULER' color='#D5B994' onPress={() => setModalDelVisible(false) }/>
             </View>
         </View>
       </View>

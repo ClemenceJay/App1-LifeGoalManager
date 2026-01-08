@@ -7,6 +7,7 @@ import ModalDel from './composants/ModalDel';
 import ModalEdit from './composants/ModalEdit';
 import ModalDone from './composants/ModalDone';
 import DisplayGoalDone from './composants/DisplayGoalDone';
+import ModalNewChild from './composants/ModalNewChild';
 
 const background = require('./assets/background.jpg');
 
@@ -20,6 +21,7 @@ export default function App() {
   const [indexToDelete, setIndexToDelete] = useState("");
   const [indexToEdit, setIndexToEdit] = useState("");
   const [indexToDone, setIndexToDone] = useState("");
+  const [idParent, setIdParent] = useState("");
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
@@ -32,6 +34,33 @@ export default function App() {
     setDisplayDone(!displayDone);
   }
 
+  const addChild = (idParent) => {
+    // création du goal enfant
+    let newChild = {
+      id: Date.now(),
+      nom: newGoalInput,
+      done: false,
+      parent: idParent,
+      child: []
+    };
+    // Ajout de l'id enfant chez le parent
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => {
+      if(prevGoal.id === idParent) {
+        let arrayChild = prevGoal.child;
+        arrayChild.push(newChild.id);
+        return {...prevGoal, child: arrayChild}
+      }else{
+        return prevGoal
+      }
+    }));
+
+    // Ajout de l'enfant dans la liste des goals
+    setSampleGoals([...sampleGoals, newChild]);
+    setNewGoalInput("");
+    setIdParent("");
+    setModalAddChildVisible(false)
+  }
+  
   const ajouterGoalParent = () => {
     // Génération d'un nouvel objet avec un id unique (grace à Date.now())
     let newGoal = {
@@ -74,10 +103,15 @@ export default function App() {
     setIndexToDone(goalToDone);
   }
 
-  const openModalEdit = (indexGoalToEdit, goal) => {
+  const openModalEdit = (goal) => {
     setModalEditVisible(true);
-    setIndexToEdit(indexGoalToEdit);
+    setIndexToEdit(goal.id);
     setNomGoalToEdit(goal.nom);
+  }
+
+  const openModalChild = (idParent) => {
+    setModalAddChildVisible(true);
+    setIdParent(idParent);
   }
 
   return (
@@ -100,16 +134,16 @@ export default function App() {
         visible={modalDoneVisible}>
           <ModalDone indexToDone={indexToDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
       </Modal>
-      {/* <Modal 
+      <Modal 
         animationType="fade"
         transparent={true}
         visible={modalAddChildVisible}>
-          <ModalDone indexToDone={indexToDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
-      </Modal> */}
+          <ModalNewChild idParent={idParent} setModalAddChildVisible={setModalAddChildVisible} addChild={addChild}  newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput}/>
+      </Modal>
       <KeyboardAvoidingView behavior='padding' style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
         <DisplayGoalDone displayDone={displayDone} toggleDisplayDone={toggleDisplayDone}/>
-        <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>
+        <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit} openModalChild={openModalChild}/>
         <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterGoalParent={ajouterGoalParent}/>
       </KeyboardAvoidingView>
     </ImageBackground>

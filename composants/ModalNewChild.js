@@ -1,21 +1,16 @@
 import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const ModalDone = ({ indexToDone, setModalDoneVisible, doneGoal }) => {
+const ModalNewChild = ({ idParent, setModalAddChildVisible, addChild,  newGoalInput, setNewGoalInput}) => {
 
     return (
       <View style={styles.modal}>
         <View style={styles.modalContent}>
-            <Text>Bravo !</Text>
+            <Text>Ajouter un objectif enfant?</Text>
+            <TextInput value={newGoalInput} onChangeText={setNewGoalInput} style={styles.input} placeholder='Objectif enfant'/>
             <View style={styles.containerRow}>
-                <Button
-                    style={styles.boutons}
-                    title='CONTINUER'
-                    color='#D5B994'
-                    onPress={() => {
-                        setModalDoneVisible(false);
-                        doneGoal(indexToDone);
-                    }}/>
+                <Button title='Add' color='#3e3f2cff' onPress={() => addChild(idParent)}/>
+                <Button title='ANNULER' color='#D5B994' onPress={() => {setModalAddChildVisible(false); setNewGoalInput("")} }/>
             </View>
         </View>
       </View>
@@ -34,7 +29,6 @@ const styles = StyleSheet.create({
         padding:15,
         borderRadius:15,
         gap:10
-
     },
     containerRow: {
         flexDirection: 'row',
@@ -43,7 +37,12 @@ const styles = StyleSheet.create({
     },
     text : {
         color: 'white',
+    },
+    input: {
+        borderColor: 'black',
+        borderWidth: 1,
+        width: 200
     }
 });
 
-export default ModalDone;
+export default ModalNewChild;

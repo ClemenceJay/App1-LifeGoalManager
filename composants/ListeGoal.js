@@ -4,22 +4,19 @@ import CardGoal from './CardGoal'
 
 const ListeGoal = ({ listeGoal, displayDone, openModalDel, openModalDone, openModalEdit, openModalChild }) => {
   
-  // On créé une nouvelle liste en ajoutant l'index d'origine à l'objet
-  let listToDisplay = listeGoal.map((goal,index) => {
-    return {goal, index}
-  })
+  let listToDisplay = listeGoal;
   
   // On créé une nouvelle liste sans les goal avec le statut done (sauf si on demande l'affichage de ces goal)
   if (!displayDone) {
-    listToDisplay = listToDisplay.filter((item) => !item.goal.done)
+    listToDisplay = listToDisplay.filter((goal) => !goal.done)
   }
   
   return (
     <FlatList
     style={styles.listeGoal}
     data={listToDisplay}
-    renderItem={({item}) => {
-        return <CardGoal goal={item.goal} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit} openModalChild={openModalChild}/>}}
+    renderItem={(goal) => {
+        return <CardGoal goal={goal.item} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit} openModalChild={openModalChild}/>}}
       />
     );
   };

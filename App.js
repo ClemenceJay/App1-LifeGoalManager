@@ -25,7 +25,7 @@ export default function App() {
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
-    {id : 1, nom: "Faire les courses", done: false, parent:null, child: []},
+    {id : 1, nom: "Faire les courses", done: true, parent:null, child: []},
     {id : 2, nom: "Perdre 5 kgs", done: false, parent:null, child: []},
     {id : 3, nom: "Apprendre un nouveau langage", done: false, parent:null, child: []}
   ]);
@@ -102,23 +102,6 @@ export default function App() {
     }
     setModalDelVisible(false);
     setGoalToDelete("");
-  }
-
-  const checkAllEnfantDone = (parentId, enfantId) => {
-    // on récupère le parent et la liste de ses enfants (hors celui qu'on passe en done)
-    let parent = sampleGoals.find((goal) => goal.id === parentId);
-    let listeEnfants = parent.child.filter((goalID) => goalID != enfantId);
-
-    // Si au moins un des enfant à done = false alors la tache parente n'est pas 100% terminée
-    let nbEnfantNotDone = 0;
-    listeEnfants.forEach(enfantId => {
-      let enfant = sampleGoals.find((goal) => goal.id === enfantId);
-      if (enfant.done == false) {
-        nbEnfantNotDone += 1
-      }
-    });
-
-    return nbEnfantNotDone == 0;
   }
 
   const doneGoal = (goalDone) => {

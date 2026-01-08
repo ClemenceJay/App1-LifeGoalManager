@@ -3,7 +3,11 @@ import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
 const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalChild }) => {
 
-  //  On affiche le bouton "done" uniquement aux taches qui n'ont pas d'enfant
+  console.log(goal)
+  // Modification de l'image si le goal est marqué comme "done" ou pas
+  const imageDone = goal.done ? require('../assets/undo.png') : require('../assets/check-mark.png');
+
+  // On affiche le bouton "done" uniquement aux taches qui n'ont pas d'enfant
   // On affiche le bouton d'ajout d'enfant uniquement aux taches qui n'ont pas de parents
 
   return (
@@ -15,7 +19,7 @@ const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalC
             {goal.child == "" ?
               <Pressable onPress={() => openModalDone(goal)}>
                 <Image
-                source={require('../assets/check-mark.png')}
+                source={imageDone}
                 style={{width: 20, height: 20}}/>
               </Pressable> : null
             }

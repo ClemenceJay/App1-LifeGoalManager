@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const ModalDel = ({ indexToDelete, setModalDelVisible, deleteGoal }) => {
+const ModalDel = ({ goalToDelete, setModalDelVisible, deleteGoal }) => {
 
     return (
       <View style={styles.modal}>
         <View style={styles.modalContent}>
             <Text>Etes vous sûr de vouloir supprimer ce goal ?</Text>
             <View style={styles.containerRow}>
-                <Button title='OUI' color='#D5B994' onPress={() =>  deleteGoal(indexToDelete)}/>
+                <Button title='OUI' color='#D5B994' onPress={() =>  deleteGoal(goalToDelete)}/>
                 <Button title='ANNULER' color='#D5B994' onPress={() => setModalDelVisible(false) }/>
             </View>
         </View>

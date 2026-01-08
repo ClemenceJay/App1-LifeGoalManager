@@ -2,6 +2,10 @@ import React from 'react';
 import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
 const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalChild }) => {
+
+  //  On affiche le bouton "done" uniquement aux taches qui n'ont pas d'enfant
+  // On affiche le bouton d'ajout d'enfant uniquement aux taches qui n'ont pas de parents
+
   return (
         <View style={styles.listeCardGoal}>
           <Pressable>
@@ -9,18 +13,20 @@ const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalC
           </Pressable>
           <View style={styles.containerRow}>
             {goal.child == "" ?
-              (<Pressable onPress={() => openModalDone(goal.id)}>
+              <Pressable onPress={() => openModalDone(goal.id)}>
                 <Image
                 source={require('../assets/check-mark.png')}
                 style={{width: 20, height: 20}}/>
-              </Pressable>)  : null
+              </Pressable> : null
             }
+            {goal.parent == null ?
             <Pressable onPress={() => openModalChild(goal.id)}>
               <Image
               source={require('../assets/addGoal.png')}
               style={{width: 25, height: 25}}/>
-            </Pressable>
-            <Pressable onPress={() => openModalDel(goal.id)}>
+            </Pressable> : null
+            }
+            <Pressable onPress={() => openModalDel(goal)}>
               <Image
               source={require('../assets/trash.png')}
               style={{width: 25, height: 25}}/>

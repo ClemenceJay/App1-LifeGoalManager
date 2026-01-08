@@ -18,7 +18,7 @@ export default function App() {
   const [modalDoneVisible, setModalDoneVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalAddChildVisible, setModalAddChildVisible] = useState(false);
-  const [indexToDelete, setIndexToDelete] = useState("");
+  const [goalToDelete, setgoalToDelete] = useState("");
   const [indexToEdit, setIndexToEdit] = useState("");
   const [indexToDone, setIndexToDone] = useState("");
   const [idParent, setIdParent] = useState("");
@@ -74,10 +74,34 @@ export default function App() {
     setNewGoalInput("");
   }
   
+  const editChild = (parentId, childId) => {
+    // on modifie le champ enfant du parent associé:
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => {
+      if(prevGoal.id === parentId) {
+        let arrayChildUpdate = prevGoal.child.filter((child) => child != childId);
+        return {...prevGoal, child: arrayChildUpdate}
+      }else{
+        return prevGoal
+      }
+    }));
+  }
+
   const deleteGoal = (goalToDelete) => {
-    setSampleGoals(sampleGoals.filter((item) => item.id != goalToDelete));
+    // on check si c'etait un élement parent pour pouvoir supprimer aussi ses goals enfants:
+    if(goalToDelete.child != "") {
+      setSampleGoals(sampleGoals.filter((item) => item.id != goalToDelete.id && item.parent != goalToDelete.id));
+    }
+    // Si non, suppression simple
+    else {
+      setSampleGoals(sampleGoals.filter((item) => item.id != goalToDelete.id));
+    }
+
+    // Si c'etait un enfant, il faut modifier le champ child de son parent associé
+    if (goalToDelete.parent != null) {
+      editChild(goalToDelete.parent, goalToDelete.id)
+    }
     setModalDelVisible(false);
-    setIndexToDelete("");
+    setgoalToDelete("");
   }
 
   const doneGoal = (indexGoalToDone) => {
@@ -95,7 +119,7 @@ export default function App() {
 
   const openModalDel = (goalToDelete) => {
     setModalDelVisible(true);
-    setIndexToDelete(goalToDelete);
+    setgoalToDelete(goalToDelete);
   }
 
   const openModalDone = (goalToDone) => {
@@ -120,7 +144,7 @@ export default function App() {
         animationType="fade"
         transparent={true}
         visible={modalDelVisible}>
-          <ModalDel indexToDelete={indexToDelete} setModalDelVisible={setModalDelVisible} deleteGoal={deleteGoal}/>
+          <ModalDel goalToDelete={goalToDelete} setModalDelVisible={setModalDelVisible} deleteGoal={deleteGoal}/>
       </Modal>
       <Modal 
         animationType="fade"

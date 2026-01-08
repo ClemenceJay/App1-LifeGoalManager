@@ -12,26 +12,35 @@ const background = require('./assets/background.jpg');
 
 export default function App() {
   
+  const [displayDone, setDisplayDone] = useState(false);
   const [modalDelVisible, setModalDelVisible] = useState(false);
   const [modalDoneVisible, setModalDoneVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [modalAddChildVisible, setModalAddChildVisible] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState("");
   const [indexToEdit, setIndexToEdit] = useState("");
   const [indexToDone, setIndexToDone] = useState("");
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
-    {nom: "Faire les courses", done: false},
-    {nom: "Perdre 5 kgs", done: false},
-    {nom: "Apprendre un nouveau langage", done: false}
+    {id : 1, nom: "Faire les courses", done: false, parent:null, child: []},
+    {id : 2, nom: "Perdre 5 kgs", done: false, parent:null, child: []},
+    {id : 3, nom: "Apprendre un nouveau langage", done: false, parent:null, child: []}
   ]);
-  const [displayDone, setDisplayDone] = useState(false);
 
   const toggleDisplayDone = () => {
     setDisplayDone(!displayDone);
   }
-  const ajouterLifeGoal = () => {
-    let newGoal = {nom: newGoalInput, done: false}
+
+  const ajouterGoalParent = () => {
+    // Génération d'un nouvel objet avec un id unique (grace à Date.now())
+    let newGoal = {
+      id: Date.now(),
+      nom: newGoalInput,
+      done: false,
+      parent: null,
+      child: []
+    }
     setSampleGoals([...sampleGoals, newGoal]);
     setNewGoalInput("");
   }
@@ -91,12 +100,17 @@ export default function App() {
         visible={modalDoneVisible}>
           <ModalDone indexToDone={indexToDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
       </Modal>
-      <KeyboardAvoidingView
-      behavior='padding' style={styles.container}>
+      {/* <Modal 
+        animationType="fade"
+        transparent={true}
+        visible={modalAddChildVisible}>
+          <ModalDone indexToDone={indexToDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
+      </Modal> */}
+      <KeyboardAvoidingView behavior='padding' style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
         <DisplayGoalDone displayDone={displayDone} toggleDisplayDone={toggleDisplayDone}/>
         <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>
-        <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterLifeGoal={ajouterLifeGoal}/>
+        <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterGoalParent={ajouterGoalParent}/>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -106,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   titre: {
     fontSize: 34,

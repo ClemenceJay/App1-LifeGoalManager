@@ -3,21 +3,30 @@ import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
 const CardGoal = ({ goal, index, openModalDel, openModalDone, openModalEdit }) => {
 
+  console.log(goal)
   return (
         <View style={styles.listeCardGoal}>
           <Pressable>
             <Text style={styles.text} onPress={() => openModalEdit(index, goal)}>{goal.nom}</Text>
           </Pressable>
           <View style={styles.containerRow}>
-            <Pressable onPress={() => openModalDone(index)}>
+            {goal.child != "" ?
+              (<Pressable onPress={() => openModalDone(index)}>
+                <Image
+                source={require('../assets/check-mark.png')}
+                style={{width: 20, height: 20}}/>
+              </Pressable>)  : null
+            }
+            <Pressable onPress={() => ""}>
               <Image
-              source={require('../assets/check-mark.png')}
+              source={require('../assets/addGoal.png')}
               style={{width: 25, height: 25}}/>
             </Pressable>
-            <Button
-                title='X'
-                color='#D5B994'
-                onPress={() => openModalDel(index)}/>
+            <Pressable onPress={() => openModalDel(index)}>
+              <Image
+              source={require('../assets/trash.png')}
+              style={{width: 25, height: 25}}/>
+            </Pressable>
           </View>
         </View>
     );
@@ -27,6 +36,7 @@ const styles = StyleSheet.create({
   text : {
     fontWeight: '600',
     color: '#717258ff',
+    maxWidth: 200
   },
   listeCardGoal: {
     marginTop:2,

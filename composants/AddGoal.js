@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const AddGoal = ({ newGoalInput, setNewGoalInput, ajouterLifeGoal }) => {
+const AddGoal = ({ newGoalInput, setNewGoalInput, ajouterGoalParent }) => {
 
   return (
     <View style={styles.containerRow}>
@@ -13,7 +13,7 @@ const AddGoal = ({ newGoalInput, setNewGoalInput, ajouterLifeGoal }) => {
       <Button
         title='Add'
         color='#3e3f2cff'
-        onPress={ajouterLifeGoal}/>
+        onPress={ajouterGoalParent}/>
     </View>
   );
 };

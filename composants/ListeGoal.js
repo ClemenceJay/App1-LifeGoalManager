@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     marginRight: 5,
     marginLeft: 5,
-    maxHeight: '65%'
+    maxHeight: '65%',
   }
 });
 

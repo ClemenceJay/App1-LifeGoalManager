@@ -3,6 +3,7 @@ import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-nativ
 import CardGoal from './CardGoal'
 
 const ListeGoal = ({ listeGoal, displayDone, openModalDel, openModalDone, openModalEdit }) => {
+  
   // On créé une nouvelle liste en ajoutant l'index d'origine à l'objet
   let listToDisplay = listeGoal.map((goal,index) => {
     return {goal, index}
@@ -18,7 +19,7 @@ const ListeGoal = ({ listeGoal, displayDone, openModalDel, openModalDone, openMo
     style={styles.listeGoal}
     data={listToDisplay}
     renderItem={({item}) => {
-        return <CardGoal goal={item.goal} index={item.index} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>}}
+        return <CardGoal goal={item.goal} index={item.goal.id} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit}/>}}
       />
     );
   };

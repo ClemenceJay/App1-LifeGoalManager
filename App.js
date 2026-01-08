@@ -46,19 +46,19 @@ export default function App() {
   }
   
   const deleteGoal = (goalToDelete) => {
-    setSampleGoals(sampleGoals.filter((_,index) => index != goalToDelete));
+    setSampleGoals(sampleGoals.filter((item) => item.id != goalToDelete));
     setModalDelVisible(false);
     setIndexToDelete("");
   }
 
   const doneGoal = (indexGoalToDone) => {
-    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === indexGoalToDone ? {...prevGoal, done: true} : prevGoal));
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === indexGoalToDone ? {...prevGoal, done: true} : prevGoal));
     setModalDoneVisible(false);
     setIndexToDone("");
   }
   
   const editGoal = (indexGoalToEdit) => {
-    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal, i) => i === indexGoalToEdit ? {...prevGoal, nom: nomGoalToEdit} : prevGoal));
+    setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === indexGoalToEdit ? {...prevGoal, nom: nomGoalToEdit} : prevGoal));
     setModalEditVisible(false);
     setIndexToEdit("");
     setNomGoalToEdit("");

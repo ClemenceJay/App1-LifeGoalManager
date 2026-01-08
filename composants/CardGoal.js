@@ -3,7 +3,6 @@ import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
 const CardGoal = ({ goal, index, openModalDel, openModalDone, openModalEdit }) => {
 
-  console.log(goal)
   return (
         <View style={styles.listeCardGoal}>
           <Pressable>

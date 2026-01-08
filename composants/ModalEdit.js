@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
-import CardGoal from './CardGoal'
 
 const ModalEdit = ({ indexToEdit, nomGoalToEdit, setModalEditVisible, setNomGoalToEdit, editGoal }) => {
 

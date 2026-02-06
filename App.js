@@ -15,8 +15,6 @@ export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [typeModalToOpen, setTypeModalToOpen] = useState(false);
   const [goalModal, setGoalModal] = useState("");
-  // const [modalAddChildVisible, setModalAddChildVisible] = useState(false);
-  const [idParent, setIdParent] = useState("");
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
   const [sampleGoals, setSampleGoals] = useState([
@@ -163,11 +161,6 @@ export default function App() {
     setNomGoalToEdit(goalModal.nom);
   }
 
-  const openModalChild = (idParent) => {
-    setModalAddChildVisible(true);
-    setIdParent(idParent);
-  }
-
   return (
     <ImageBackground style={styles.container} source={background} resizeMode="cover">
       <Modal 
@@ -188,13 +181,6 @@ export default function App() {
             setNewGoalInput={setNewGoalInput}
             />
       </Modal>
-      {/*
-      <Modal 
-        animationType="fade"
-        transparent={true}
-        visible={modalAddChildVisible}>
-          <ModalNewChild idParent={idParent} setModalAddChildVisible={setModalAddChildVisible} addChild={addChild} newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput}/>
-      </Modal> */}
       <KeyboardAvoidingView behavior='padding' style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
         <DisplayGoalDone displayDone={displayDone} toggleDisplayDone={toggleDisplayDone}/>

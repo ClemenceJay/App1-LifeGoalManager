@@ -7,7 +7,7 @@ const ModalDel = ({ goalModal, setModalVisible, deleteGoal }) => {
         <View style={styles.modalContent}>
             <Text>Etes vous sûr de vouloir supprimer ce goal ?</Text>
             <View style={styles.containerRow}>
-                <Button title='OUI' color='#D5B994' onPress={() =>  deleteGoal(goalModal)}/>
+                <Button title='OUI' color='#3e3f2cff' onPress={() =>  deleteGoal(goalModal)}/>
                 <Button title='ANNULER' color='#D5B994' onPress={() => setModalVisible(false) }/>
             </View>
         </View>

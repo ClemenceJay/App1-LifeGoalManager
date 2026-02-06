@@ -26,7 +26,7 @@ export default function App() {
   ]);
   
   // Fonctions d'action sur les goal
-  
+
   const addChild = (idParent) => {
     // création du goal enfant
     let newChild = {
@@ -50,8 +50,8 @@ export default function App() {
     // Ajout de l'enfant dans la liste des goals
     setSampleGoals([...sampleGoals, newChild]);
     setNewGoalInput("");
-    setIdParent("");
-    setModalAddChildVisible(false)
+    setGoalModal("");
+    setModalVisible(false)
   }
   
   const ajouterGoalParent = () => {
@@ -183,6 +183,9 @@ export default function App() {
             nomGoalToEdit={nomGoalToEdit}
             setNomGoalToEdit={setNomGoalToEdit}
             markAsDoneGoal={markAsDoneGoal}
+            addChild={addChild}
+            newGoalInput={newGoalInput}
+            setNewGoalInput={setNewGoalInput}
             />
       </Modal>
       {/*

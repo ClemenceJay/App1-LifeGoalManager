@@ -1,10 +1,9 @@
 import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
-const ModalDone = ({ goalDone, setModalDoneVisible, doneGoal }) => {
+const ModalDone = ({ goalModal, setModalVisible, markAsDoneGoal }) => {
 
     return (
-      <View style={styles.modal}>
         <View style={styles.modalContent}>
             <Text>Bravo !</Text>
             <View style={styles.containerRow}>
@@ -12,22 +11,15 @@ const ModalDone = ({ goalDone, setModalDoneVisible, doneGoal }) => {
                     title='CONTINUER'
                     color='#D5B994'
                     onPress={() => {
-                        setModalDoneVisible(false);
-                        doneGoal(goalDone);
+                        setModalVisible(false);
+                        markAsDoneGoal(goalModal);
                     }}/>
             </View>
         </View>
-      </View>
     );
 };
   
 const styles = StyleSheet.create({
-    modal: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: "#5a5a5aab"
-    },
     modalContent: {
         backgroundColor: "#F7F3F2",
         padding:15,

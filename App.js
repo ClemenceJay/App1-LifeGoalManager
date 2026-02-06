@@ -15,9 +15,7 @@ export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [typeModalToOpen, setTypeModalToOpen] = useState(false);
   const [goalModal, setGoalModal] = useState("");
-  // const [modalDoneVisible, setModalDoneVisible] = useState(false);
   // const [modalAddChildVisible, setModalAddChildVisible] = useState(false);
-  const [goalDone, setGoalDone] = useState("");
   const [idParent, setIdParent] = useState("");
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
   const [newGoalInput, setNewGoalInput] = useState("");
@@ -26,11 +24,9 @@ export default function App() {
     {id : 2, nom: "Perdre 5 kgs", done: false, parent:null, child: []},
     {id : 3, nom: "Apprendre un nouveau langage", done: false, parent:null, child: []}
   ]);
-
-  const toggleDisplayDone = () => {
-    setDisplayDone(!displayDone);
-  }
-
+  
+  // Fonctions d'action sur les goal
+  
   const addChild = (idParent) => {
     // création du goal enfant
     let newChild = {
@@ -50,7 +46,7 @@ export default function App() {
         return prevGoal
       }
     }));
-
+    
     // Ajout de l'enfant dans la liste des goals
     setSampleGoals([...sampleGoals, newChild]);
     setNewGoalInput("");
@@ -82,7 +78,7 @@ export default function App() {
       }
     }));
   }
-
+  
   const deleteGoal = (goalToDelete) => {
     // on check si c'etait un élement parent pour pouvoir supprimer aussi ses goals enfants:
     if(goalToDelete.child != "") {
@@ -111,17 +107,17 @@ export default function App() {
       } else {
         setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: false} : prevGoal));
       }
-
-    // Sinon, On va gérer le passage en done et nottement s'il y a d'éventuels enfants
+      
+      // Sinon, On va gérer le passage en done et nottement s'il y a d'éventuels enfants
     } else {
       
       // Si le goal a un parent on va checker si les autres enfants sont done ou pas
       if (goalDone.parent != null) {
-  
+        
         // on récupère le parent et la liste de ses enfants (hors celui qu'on passe en done)
         let parent = sampleGoals.find((goal) => goal.id === goalDone.parent);
         let listeEnfants = parent.child.filter((goalID) => goalID != goalDone.id);
-    
+        
         // Si au moins un des enfant à done = false alors la tache parente n'est pas 100% terminée
         let nbEnfantNotDone = 0;
         listeEnfants.forEach(enfantId => {
@@ -130,7 +126,7 @@ export default function App() {
             nbEnfantNotDone += 1
           }
         });
-  
+        
         // Si tous les autres enfants sont à done on passe en done le goal et son parent (si non, on passe en done juste le goal de base)
         if(nbEnfantNotDone == 0) {
           setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id || prevGoal.id === goalDone.parent ? {...prevGoal, done: true} : prevGoal));
@@ -138,15 +134,14 @@ export default function App() {
           setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: true} : prevGoal));
         }
         
-      // Si le goal n'a pas de parent, on s'en fiche et on le passe en done
+        // Si le goal n'a pas de parent, on s'en fiche et on le passe en done
       } else {
         setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === goalDone.id ? {...prevGoal, done: true} : prevGoal));
       }
     }
     
-
-    setModalDoneVisible(false);
-    setGoalDone("");
+    setModalVisible(false);
+    setGoalModal("");
   }
   
   const editGoal = (indexGoalToEdit) => {
@@ -155,19 +150,18 @@ export default function App() {
     setGoalModal("");
     setNomGoalToEdit("");
   }
-
+  
+  // Fonctions d'affichage
+  const toggleDisplayDone = () => {
+    setDisplayDone(!displayDone);
+  }
+  
   const openModal = (goalModal, typeModale) => {
     setModalVisible(true);
     setTypeModalToOpen(typeModale);
     setGoalModal(goalModal);
     setNomGoalToEdit(goalModal.nom);
   }
-
-  const openModalDone = (goalToDone) => {
-    setModalDoneVisible(true);
-    setGoalDone(goalToDone);
-  }
-
 
   const openModalChild = (idParent) => {
     setModalAddChildVisible(true);
@@ -188,14 +182,10 @@ export default function App() {
             editGoal={editGoal}
             nomGoalToEdit={nomGoalToEdit}
             setNomGoalToEdit={setNomGoalToEdit}
+            markAsDoneGoal={markAsDoneGoal}
             />
       </Modal>
-      {/* <Modal 
-        animationType="fade"
-        transparent={true}
-        visible={modalDoneVisible}>
-          <ModalDone goalDone={goalDone} setModalDoneVisible={setModalDoneVisible} doneGoal={doneGoal}/>
-      </Modal>
+      {/*
       <Modal 
         animationType="fade"
         transparent={true}

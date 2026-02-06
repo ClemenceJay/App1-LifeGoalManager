@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import CardGoal from './CardGoal'
 
-const ListeGoal = ({ listeGoal, displayDone, openModalDel, openModalDone, openModalEdit, openModalChild }) => {
+const ListeGoal = ({ listeGoal, displayDone, openModal }) => {
   
   let listToDisplay = listeGoal;
   
@@ -16,7 +16,7 @@ const ListeGoal = ({ listeGoal, displayDone, openModalDel, openModalDone, openMo
     style={styles.listeGoal}
     data={listToDisplay}
     renderItem={(goal) => {
-        return <CardGoal goal={goal.item} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit} openModalChild={openModalChild}/>}}
+        return <CardGoal goal={goal.item} openModal={openModal} />}}
       />
     );
   };

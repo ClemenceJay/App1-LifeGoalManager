@@ -3,23 +3,20 @@ import { Button, StyleSheet, Text, TextInput, View, ImageBackground, Modal,Keybo
 import React, {useState} from 'react';
 import ListeGoal from './composants/ListeGoal';
 import AddGoal from './composants/AddGoal';
-import ModalDel from './composants/ModalDel';
-import ModalEdit from './composants/ModalEdit';
-import ModalDone from './composants/ModalDone';
 import DisplayGoalDone from './composants/DisplayGoalDone';
-import ModalNewChild from './composants/ModalNewChild';
+import ModaleGenerale from './composants/ModaleGenerale';
 
 const background = require('./assets/background.jpg');
 
 export default function App() {
   
   const [displayDone, setDisplayDone] = useState(false);
-  const [modalDelVisible, setModalDelVisible] = useState(false);
-  const [modalDoneVisible, setModalDoneVisible] = useState(false);
-  const [modalEditVisible, setModalEditVisible] = useState(false);
-  const [modalAddChildVisible, setModalAddChildVisible] = useState(false);
-  const [goalToDelete, setGoalToDelete] = useState("");
-  const [indexToEdit, setIndexToEdit] = useState("");
+  // Variables d'ouverture de la modale
+  const [modalVisible, setModalVisible] = useState(false);
+  const [typeModalToOpen, setTypeModalToOpen] = useState(false);
+  const [goalModal, setGoalModal] = useState("");
+  // const [modalDoneVisible, setModalDoneVisible] = useState(false);
+  // const [modalAddChildVisible, setModalAddChildVisible] = useState(false);
   const [goalDone, setGoalDone] = useState("");
   const [idParent, setIdParent] = useState("");
   const [nomGoalToEdit, setNomGoalToEdit] = useState("");
@@ -100,11 +97,11 @@ export default function App() {
     if (goalToDelete.parent != null) {
       editChild(goalToDelete.parent, goalToDelete.id)
     }
-    setModalDelVisible(false);
-    setGoalToDelete("");
+    setModalVisible(false);
+    setGoalModal("");
   }
 
-  const doneGoal = (goalDone) => {
+  const markAsDoneGoal = (goalDone) => {
 
     // Si le goal est déjà en done alors on va le repasser en not done ainsi que son parent s'il en a un
     if (goalDone.done) {
@@ -154,14 +151,16 @@ export default function App() {
   
   const editGoal = (indexGoalToEdit) => {
     setSampleGoals(precedentsGoal => precedentsGoal.map((prevGoal) => prevGoal.id === indexGoalToEdit ? {...prevGoal, nom: nomGoalToEdit} : prevGoal));
-    setModalEditVisible(false);
-    setIndexToEdit("");
+    setModalVisible(false);
+    setGoalModal("");
     setNomGoalToEdit("");
   }
 
-  const openModalDel = (goalToDelete) => {
-    setModalDelVisible(true);
-    setGoalToDelete(goalToDelete);
+  const openModal = (goalModal, typeModale) => {
+    setModalVisible(true);
+    setTypeModalToOpen(typeModale);
+    setGoalModal(goalModal);
+    setNomGoalToEdit(goalModal.nom);
   }
 
   const openModalDone = (goalToDone) => {
@@ -169,11 +168,6 @@ export default function App() {
     setGoalDone(goalToDone);
   }
 
-  const openModalEdit = (goal) => {
-    setModalEditVisible(true);
-    setIndexToEdit(goal.id);
-    setNomGoalToEdit(goal.nom);
-  }
 
   const openModalChild = (idParent) => {
     setModalAddChildVisible(true);
@@ -185,16 +179,18 @@ export default function App() {
       <Modal 
         animationType="fade"
         transparent={true}
-        visible={modalDelVisible}>
-          <ModalDel goalToDelete={goalToDelete} setModalDelVisible={setModalDelVisible} deleteGoal={deleteGoal}/>
+        visible={modalVisible}>
+          <ModaleGenerale
+            typeModale={typeModalToOpen}
+            setModalVisible={setModalVisible}
+            goalModal={goalModal}
+            deleteGoal={deleteGoal}
+            editGoal={editGoal}
+            nomGoalToEdit={nomGoalToEdit}
+            setNomGoalToEdit={setNomGoalToEdit}
+            />
       </Modal>
-      <Modal 
-        animationType="fade"
-        transparent={true}
-        visible={modalEditVisible}>
-          <ModalEdit indexToEdit={indexToEdit} nomGoalToEdit={nomGoalToEdit} setModalEditVisible={setModalEditVisible} editGoal={editGoal} setNomGoalToEdit={setNomGoalToEdit}/>
-      </Modal>
-      <Modal 
+      {/* <Modal 
         animationType="fade"
         transparent={true}
         visible={modalDoneVisible}>
@@ -205,11 +201,11 @@ export default function App() {
         transparent={true}
         visible={modalAddChildVisible}>
           <ModalNewChild idParent={idParent} setModalAddChildVisible={setModalAddChildVisible} addChild={addChild} newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput}/>
-      </Modal>
+      </Modal> */}
       <KeyboardAvoidingView behavior='padding' style={styles.container}>
         <Text style={styles.titre}>Mes Life Goal:</Text>
         <DisplayGoalDone displayDone={displayDone} toggleDisplayDone={toggleDisplayDone}/>
-        <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModalDel={openModalDel} openModalDone={openModalDone} openModalEdit={openModalEdit} openModalChild={openModalChild}/>
+        <ListeGoal listeGoal={sampleGoals} displayDone={displayDone} openModal={openModal}/>
         <AddGoal newGoalInput={newGoalInput} setNewGoalInput={setNewGoalInput} ajouterGoalParent={ajouterGoalParent}/>
       </KeyboardAvoidingView>
     </ImageBackground>

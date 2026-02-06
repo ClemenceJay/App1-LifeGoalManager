@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Pressable, StyleSheet, Text, Image, View } from 'react-native';
 
-const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalChild }) => {
+const CardGoal = ({ goal, openModal }) => {
 
   // Modification de l'image si le goal est marqué comme "done" ou pas
   const imageDone = goal.done ? require('../assets/undo.png') : require('../assets/check-mark.png');
@@ -12,24 +12,24 @@ const CardGoal = ({ goal, openModalDel, openModalDone, openModalEdit, openModalC
   return (
         <View style={[styles.listeCardGoal, goal.done && styles.done]}>
           <Pressable>
-            <Text style={styles.text} onPress={() => openModalEdit(goal)}>{goal.nom}</Text>
+            <Text style={styles.text} onPress={() => openModal(goal, "edit")}>{goal.nom}</Text>
           </Pressable>
           <View style={styles.containerRow}>
             {goal.child == "" ?
-              <Pressable onPress={() => openModalDone(goal)}>
+              <Pressable onPress={() => openModal(goal, "done")}>
                 <Image
                 source={imageDone}
                 style={{width: 20, height: 20}}/>
               </Pressable> : null
             }
             {goal.parent == null && !goal.done ?
-            <Pressable onPress={() => openModalChild(goal.id)}>
+            <Pressable onPress={() => openModal(goal, "newchild")}>
               <Image
               source={require('../assets/addGoal.png')}
               style={{width: 25, height: 25}}/>
             </Pressable> : null
             }
-            <Pressable onPress={() => openModalDel(goal)}>
+            <Pressable onPress={() => openModal(goal, "del")}>
               <Image
               source={require('../assets/trash.png')}
               style={{width: 25, height: 25}}/>
